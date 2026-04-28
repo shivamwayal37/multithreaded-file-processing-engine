@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: multithreaded-file-processing-engine
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/csvdb
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10        # match your thread pool size
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: validate           # Flyway owns DDL, not Hibernate
+    show-sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB       # without this, large CSVs get rejected
+
+server:
+  port: 8080
+
+csv:
+  processor:
+    chunk-size: 1000               # rows per worker thread
+    thread-pool-size: 4            # override with CPU count at runtime
