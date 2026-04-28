@@ -1,0 +1,2 @@
+ALTER TABLE csv_jobs
+ADD COLUMN IF NOT EXISTS error_message VARCHAR(500);
